@@ -1,3 +1,25 @@
+# Azure App Service
+Terraform module to create Azure App Service
+
+# Usage
+```
+data "azurerm_resource_group" "rg" {
+  name = "RG_Apps"
+
+}
+
+
+module "appservice" {
+  source  = "github.com/iquzart/terraform-azurerm-appservice"
+  #version = "0.x.y"
+
+
+}
+
+```
+
+# Variables
+```
 # Azure App service Plan
 
 variable "app_name" {
@@ -29,3 +51,7 @@ variable "container_image_registry" {
   type        = string
   default     = "https://index.docker.io"
 }
+```
+
+# License
+MIT
