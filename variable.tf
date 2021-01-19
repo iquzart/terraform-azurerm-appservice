@@ -1,7 +1,25 @@
 # Azure App service Plan
 
+variable "resource_group_name" {
+  description = "App service resource group name"
+  type        = string
+  default     = ""
+}
+
+variable "location" {
+  description = "App service location"
+  type        = string
+  default     = ""
+}
+
 variable "app_name" {
-  description = "Web App name"
+  description = "App service name"
+  type        = string
+  default     = ""
+}
+
+variable "app_service_plan_id" {
+  description = "App service plan id"
   type        = string
   default     = ""
 }
