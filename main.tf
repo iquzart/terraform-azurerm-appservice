@@ -18,4 +18,6 @@ resource "azurerm_app_service" "app" {
     "PORT"                        = "8080"
   }
 
+  tags = var.tags
+
 }

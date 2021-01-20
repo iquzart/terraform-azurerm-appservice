@@ -47,3 +47,8 @@ variable "container_image_registry" {
   type        = string
   default     = "https://index.docker.io"
 }
+
+variable "tags" {
+  description = "A mapping of tags to assign to the resource"
+  type        = map(string)
+}
