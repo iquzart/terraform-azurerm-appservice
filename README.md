@@ -1,13 +1,25 @@
 # Azure App Service
+
 Terraform module to create Azure App Service
 
-# Usage
+## Usage
 ```
 data "azurerm_resource_group" "rg" {
   name = "RG_Apps"
 
 }
 
+module "appservice_plan" {
+  source  = "github.com/iquzart/terraform-azurerm-appservice-plan"
+
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
+  name                = var.appservice_plan_name
+  kind                = var.kind
+  tier                = var.tier
+  size                = var.size
+  tags                = var.tags
+}
 
 module "appservice" {
   source  = "github.com/iquzart/terraform-azurerm-appservice"
@@ -20,61 +32,48 @@ module "appservice" {
   container_image          = var.container_image
   container_image_tag      = var.container_image_tag
   container_image_registry = var.container_image_registry
+
+  site_config = {
+    linux_fx_version = "docker|diquzart/go-app:latest"
+    always_on        = true
+    http2_enabled    = true
+    min_tls_version  = 1.2  
+  }
+
+
+  app_settings = { 
+    "BANNER"   = var.appbanner, 
+    "PORT"     = var.app_port 
+    }
+  
+  connection_string = [{
+    name            =  "database"
+    type            =  "MySQL"
+    value           =  "xxxxxxx.xxxxxxxx.xx"
+  }]
+  
+  tags              = var.tags
 }
+
 
 ```
 
-# Variables
-```
-variable "resource_group_name" {
-  description = "App service resource group name"
-  type        = string
-  default     = ""
-}
+## Input Variables
+| Name |	Description |	Type |	Default |	Required |
+|---|---|---|---|---|
+| resource_group_name  | The name of the resource group in which to create the App Service Plan component. | string  | na | yes |
+| location | Specifies the supported Azure location where the resource exists.  | string | na | yes |
+| app_name | (Required) Specifies the name of the App Service | string | na | yes |
+| app_service_plan_id | (Required) Specifies the name of the App Service plan | string | na | yes |
+| app_settings | (Optional) A key-value pair of App Settings | map(string) | na | no |
+| site_config | (Optional) A site_config block. | any | {} | yes |
+| connection_string | (Optional) One or more connection_string | list(map(string)) | [] | no |
+| tags | (Optional) A mapping of default tags to assign to the resource | map(string) | na | no |
 
-variable "location" {
-  description = "App service location"
-  type        = string
-  default     = ""
-}
 
-variable "app_name" {
-  description = "App service name"
-  type        = string
-  default     = ""
-}
 
-variable "app_service_plan_id" {
-  description = "App service plan id"
-  type        = string
-  default     = ""
-}
-
-variable "container_type" {
-  description = "Type of container. The options are: `docker`, `compose` or `kube`."
-  type        = string
-  default     = ""
-}
-
-variable "container_image" {
-  description = "Container image name. Example: diquzart/flaskapp"
-  type        = string
-  default     = ""
-}
-
-variable "container_image_tag" {
-  description = "Container image tag"
-  type        = string
-  default     = ""
-}
-
-variable "container_image_registry" {
-  description = "Container image registry"
-  type        = string
-  default     = "https://index.docker.io"
-}
-
-```
-
-# License
+## License
 MIT
+
+## Author Information
+Muhammed Iqbal <iquzart@hotmail.com>

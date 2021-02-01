@@ -1,54 +1,48 @@
-# Azure App service Plan
+# Azure App service
 
 variable "resource_group_name" {
-  description = "App service resource group name"
+  description = "(Required) The name of the resource group in which to create the App Service"
   type        = string
   default     = ""
 }
 
 variable "location" {
-  description = "App service location"
+  description = "(Required) Specifies the supported Azure location where the resource exists"
   type        = string
   default     = ""
 }
 
 variable "app_name" {
-  description = "App service name"
+  description = "(Required) Specifies the name of the App Service"
   type        = string
   default     = ""
 }
 
 variable "app_service_plan_id" {
-  description = "App service plan id"
+  description = "(Required) Specifies the name of the App Service plan"
   type        = string
   default     = ""
-}
-
-variable "container_type" {
-  description = "Type of container. The options are: `docker`, `compose` or `kube`."
-  type        = string
-  default     = ""
-}
-
-variable "container_image" {
-  description = "Container image name. Example: diquzart/flaskapp"
-  type        = string
-  default     = ""
-}
-
-variable "container_image_tag" {
-  description = "Container image tag"
-  type        = string
-  default     = ""
-}
-
-variable "container_image_registry" {
-  description = "Container image registry"
-  type        = string
-  default     = "https://index.docker.io"
 }
 
 variable "tags" {
-  description = "A mapping of tags to assign to the resource"
+  description = "(Optional) A mapping of default tags to assign to the resource"
   type        = map(string)
+}
+
+variable "app_settings" {
+  description = "(Optional) A key-value pair of App Settings"
+  type        = map(string)
+  default     = {}
+}
+
+variable "site_config" {
+  description = "(Optional) A site_config block."
+  type        = any
+  default     = {}
+}
+
+variable "connection_string" {
+  description = "(Optional) One or more connection_string"
+  type        = list(map(string))
+  default     = []
 }
