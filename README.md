@@ -28,10 +28,6 @@ module "appservice" {
   location                 = data.azurerm_resource_group.rg.location
   app_service_plan_id      = module.appservice_plan.app_plan_id
   app_name                 = var.app_name     
-  container_type           = var.container_type
-  container_image          = var.container_image
-  container_image_tag      = var.container_image_tag
-  container_image_registry = var.container_image_registry
 
   site_config = {
     linux_fx_version = "docker|diquzart/go-app:latest"
